@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#0d0c0b">
+
+    <title>Natiely &amp; Gustavo | 03 de abril de 2027</title>
+    <meta name="description" content="Convite de casamento de Natiely e Gustavo. 03 de abril de 2027, São Miguel do Iguaçu - PR.">
+
+    <!-- Prévia do link ao compartilhar no WhatsApp.
+         Para a imagem aparecer, troque pelo endereço completo depois de publicar o site:
+         <meta property="og:image" content="https://SEU-SITE.com.br/img/hero.jpg"> -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Natiely &amp; Gustavo vão se casar">
+    <meta property="og:description" content="03 de abril de 2027. Abra o convite e confirme sua presença.">
+
+    <link rel="icon" type="image/png" href="img/icon-192.png">
+    <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/script.js" defer></script>
+
+    <!-- Sem JavaScript o envelope não abriria: então ele é escondido e o site aparece direto. -->
+    <noscript><style>#intro { display: none; } .map iframe { opacity: 1; }</style></noscript>
+</head>
+<body class="is-locked">
+
+    <!-- ============================================================
+         1. ENVELOPE DE ABERTURA
+         O botão fica FORA do envelope, por isso nunca é coberto.
+         ============================================================ -->
+    <div id="intro" class="intro">
+        <div class="envelope" id="envelope" aria-hidden="true">
+            <div class="envelope__back"></div>
+
+            <div class="envelope__letter">
+                <img class="envelope__logo" src="img/logo.png" alt="" width="56" height="56">
+                <p class="envelope__names">Natiely &amp; Gustavo</p>
+                <p class="envelope__date">03 • 04 • 2027</p>
+            </div>
+
+            <div class="envelope__front"></div>
+            <div class="envelope__flap"></div>
+            <div class="envelope__seal">&amp;</div>
+        </div>
+
+        <p class="intro__text">Você recebeu um convite</p>
+        <button type="button" id="openSite" class="btn btn--gold">Abrir convite</button>
+    </div>
+
+    <canvas id="particles" aria-hidden="true"></canvas>
+
+    <audio id="music" loop preload="none">
+        <source src="audio/athousandyears.mp3" type="audio/mpeg">
+    </audio>
+
+    <button type="button" id="musicButton" class="music" aria-label="Pausar música" aria-pressed="true" hidden>
+        <svg class="music__on" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5Z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+        <svg class="music__off" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5Z"/><path d="m22 9-6 6"/><path d="m16 9 6 6"/></svg>
+    </button>
+
+
+    <!-- ============================================================
+         2. CONTEÚDO (4 abas)
+         ============================================================ -->
+    <main id="app" class="app" tabindex="-1">
+
+        <!-- ===== ABA: INÍCIO ===== -->
+        <section id="inicio" class="panel" data-panel>
+
+            <header class="hero">
+                <img class="hero__photo" src="img/hero.jpg" alt="Natiely e Gustavo sentados em um deque à beira do lago" width="1080" height="1623" fetchpriority="high">
+                <img class="hero__logo" src="img/logo.png" alt="Monograma G e N" width="76" height="76">
+                <div class="hero__content">
+                    <h1 class="hero__names"><span>Natiely</span> <span>&amp; Gustavo</span></h1>
+                    <p class="hero__date">03 • 04 • 2027</p>
+                    <p class="hero__welcome">Bem-vindos ao nosso casamento</p>
+                </div>
+            </header>
+
+            <section class="block" aria-labelledby="t-contagem">
+                <h2 class="title" id="t-contagem">Contagem regressiva</h2>
+                <div class="countdown" id="countdown" role="timer">
+                    <div class="countdown__unit"><span class="countdown__num" id="days">--</span><span class="countdown__label">Dias</span></div>
+                    <div class="countdown__unit"><span class="countdown__num" id="hours">--</span><span class="countdown__label">Horas</span></div>
+                    <div class="countdown__unit"><span class="countdown__num" id="minutes">--</span><span class="countdown__label">Min</span></div>
+                    <div class="countdown__unit"><span class="countdown__num" id="seconds">--</span><span class="countdown__label">Seg</span></div>
+                </div>
+                <p class="countdown__done" id="countdownDone" hidden></p>
+            </section>
+
+            <section class="block" aria-labelledby="t-programacao">
+                <h2 class="title" id="t-programacao">Cerimônia e festa</h2>
+                <ol class="timeline">
+                    <li class="timeline__item">
+                        <h3 class="timeline__title">Cerimônia</h3>
+                        <p class="timeline__place">Igreja Matriz</p>
+                        <p class="timeline__meta">Sábado, 03 de abril de 2027, às 17h</p>
+                    </li>
+                    <li class="timeline__item">
+                        <h3 class="timeline__title">Festa</h3>
+                        <p class="timeline__place">Recanto e Pesqueiro Dal Pont</p>
+                        <p class="timeline__meta">São Miguel do Iguaçu - PR</p>
+                        <p class="timeline__meta">Após a cerimônia</p>
+                    </li>
+                </ol>
+            </section>
+
+            <section class="block" aria-labelledby="t-mapa">
+                <h2 class="title" id="t-mapa">Como chegar</h2>
+                <p class="lead">Recanto e Pesqueiro Dal Pont</p>
+
+                <div class="map">
+                    <iframe
+                        title="Mapa do Recanto e Pesqueiro Dal Pont"
+                        src="https://maps.google.com/maps?q=Recanto+e+Pesqueiro+Dal+Pont+S%C3%A3o+Miguel+do+Igua%C3%A7u+PR&amp;output=embed"
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"
+                        tabindex="-1"></iframe>
+                    <!-- Camada transparente: evita que o mapa "prenda" o dedo ao rolar a página -->
+                    <a class="map__tap" target="_blank" rel="noopener"
+                       aria-label="Abrir o mapa no Google Maps"
+                       href="https://www.google.com/maps/dir/?api=1&amp;destination=Recanto+e+Pesqueiro+Dal+Pont%2C+S%C3%A3o+Miguel+do+Igua%C3%A7u+-+PR"></a>
+                </div>
+
+                <div class="actions">
+                    <a class="btn btn--gold" target="_blank" rel="noopener"
+                       href="https://www.google.com/maps/dir/?api=1&amp;destination=Recanto+e+Pesqueiro+Dal+Pont%2C+S%C3%A3o+Miguel+do+Igua%C3%A7u+-+PR">Google Maps</a>
+                    <a class="btn btn--ghost" target="_blank" rel="noopener"
+                       href="https://waze.com/ul?q=Recanto%20e%20Pesqueiro%20Dal%20Pont%20S%C3%A3o%20Miguel%20do%20Igua%C3%A7u&amp;navigate=yes">Waze</a>
+                </div>
+            </section>
+        </section>
+
+
+        <!-- ===== ABA: BUFFET ===== -->
+        <section id="buffet" class="panel panel--page" data-panel aria-labelledby="t-buffet">
+            <div class="block">
+                <h2 class="title" id="t-buffet">Buffet</h2>
+                <p class="lead">Cardápio da festa no Recanto e Pesqueiro Dal Pont.</p>
+                <div class="rule" aria-hidden="true"></div>
+
+                <div class="menu">
+                    <section class="menu__group" aria-labelledby="m-carnes">
+                        <h3 class="menu__title" id="m-carnes">Carnes</h3>
+                        <ul class="menu__list">
+                            <li>Alcatra</li>
+                            <li>Costela de porco</li>
+                            <li>Coxinha da asa</li>
+                            <li>Linguiça toscana</li>
+                        </ul>
+                    </section>
+
+                    <section class="menu__group" aria-labelledby="m-acomp">
+                        <h3 class="menu__title" id="m-acomp">Acompanhamentos</h3>
+                        <ul class="menu__list">
+                            <li>Arroz</li>
+                            <li>Farofa</li>
+                            <li>Maionese</li>
+                            <li>Mandioca</li>
+                            <li>Saladas diversas</li>
+                            <li>Vinagrete</li>
+                        </ul>
+                    </section>
+                </div>
+
+                <button type="button" class="btn btn--ghost btn--block"
+                        data-lightbox="img/buffet.jpg"
+                        data-alt="Cardápio ilustrado do Recanto Dal Pont">Ver cardápio ilustrado</button>
+            </div>
+        </section>
+
+
+        <!-- ===== ABA: CORES DOS PADRINHOS =====
+             Para publicar a paleta: salve a imagem como  img/cores.png  -->
+        <section id="cores" class="panel panel--page" data-panel aria-labelledby="t-cores">
+            <div class="block">
+                <h2 class="title" id="t-cores">Cores dos padrinhos</h2>
+                <p class="lead">Use a paleta como guia para escolher a roupa.</p>
+                <div class="rule" aria-hidden="true"></div>
+
+                <figure class="figure" id="coresFigure">
+                    <button type="button" class="figure__btn"
+                            data-lightbox="img/cores.png"
+                            data-alt="Paleta de cores dos padrinhos">
+                        <img id="coresImg" src="img/cores.png" alt="Paleta de cores dos padrinhos" loading="lazy">
+                    </button>
+                    <figcaption class="figure__caption">Toque na imagem para ampliar</figcaption>
+                </figure>
+
+                <div class="placeholder" id="coresVazio" hidden>
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>
+                    <p>A paleta de cores será publicada aqui em breve.</p>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ===== ABA: CONFIRMAR PRESENÇA (WhatsApp) ===== -->
+        <section id="confirmar" class="panel panel--page" data-panel aria-labelledby="t-confirmar">
+            <div class="block">
+                <h2 class="title" id="t-confirmar">Confirme sua presença</h2>
+                <p class="lead">Preencha abaixo e a mensagem segue pronta para o WhatsApp dos noivos.</p>
+                <div class="rule" aria-hidden="true"></div>
+
+                <form id="rsvp" class="form" novalidate>
+                    <div class="field">
+                        <label for="nome">Seu nome completo</label>
+                        <input class="input" id="nome" name="nome" type="text" autocomplete="name" maxlength="80" required aria-describedby="nomeErro">
+                        <p class="field__error" id="nomeErro" hidden>Digite seu nome para continuar.</p>
+                    </div>
+
+                    <fieldset class="field">
+                        <legend>Você vai?</legend>
+                        <div class="choice">
+                            <input type="radio" id="vaiSim" name="vai" value="sim" checked>
+                            <label for="vaiSim">Sim, eu vou</label>
+                            <input type="radio" id="vaiNao" name="vai" value="nao">
+                            <label for="vaiNao">Não poderei ir</label>
+                        </div>
+                    </fieldset>
+
+                    <div class="field" id="campoPessoas">
+                        <label for="pessoas">Quantas pessoas, contando com você?</label>
+                        <div class="stepper">
+                            <button type="button" class="stepper__btn" data-step="-1" aria-label="Diminuir quantidade">−</button>
+                            <input class="input stepper__input" id="pessoas" name="pessoas" type="number" inputmode="numeric" min="1" max="10" value="1" aria-describedby="pessoasErro">
+                            <button type="button" class="stepper__btn" data-step="1" aria-label="Aumentar quantidade">+</button>
+                        </div>
+                        <p class="field__error" id="pessoasErro" hidden>Informe um número entre 1 e 10.</p>
+                    </div>
+
+                    <div class="field">
+                        <label for="recado">Recado, acompanhantes ou restrição alimentar <span class="field__opt">(opcional)</span></label>
+                        <textarea class="input" id="recado" name="recado" rows="3" maxlength="300"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn--gold btn--block">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+                        Enviar pelo WhatsApp
+                    </button>
+
+                    <p class="form__status" id="rsvpStatus" role="status" aria-live="polite"></p>
+                </form>
+            </div>
+        </section>
+    </main>
+
+
+    <!-- ============================================================
+         3. NAVEGAÇÃO POR ABAS (barra fixa no rodapé)
+         ============================================================ -->
+    <nav class="tabbar" aria-label="Seções do convite">
+        <div class="tabbar__inner">
+            <a class="tab" href="#inicio" data-tab="inicio" aria-current="page">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1Z"/></svg>
+                <span>Início</span>
+            </a>
+            <a class="tab" href="#buffet" data-tab="buffet">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></svg>
+                <span>Buffet</span>
+            </a>
+            <a class="tab" href="#cores" data-tab="cores">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>
+                <span>Cores</span>
+            </a>
+            <a class="tab" href="#confirmar" data-tab="confirmar">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+                <span>Confirmar</span>
+            </a>
+        </div>
+    </nav>
+
+
+    <!-- Janela para ampliar imagens (cardápio e paleta de cores) -->
+    <dialog id="lightbox" class="lightbox" aria-label="Imagem ampliada">
+        <button type="button" class="lightbox__close" aria-label="Fechar">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+        <img class="lightbox__img" id="lightboxImg" alt="">
+    </dialog>
+
+</body>
+</html>

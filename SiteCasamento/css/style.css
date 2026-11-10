@@ -1,0 +1,788 @@
+/* ==========================================================================
+   CONVITE DE CASAMENTO · Natiely & Gustavo
+   Mobile first. Índice:
+   1. Fontes e variáveis (cores, tipografia)
+   2. Base
+   3. Componentes (título, botões, formulário, ícones)
+   4. Envelope de abertura
+   5. Abas: layout geral e barra de navegação
+   6. Aba Início (capa, contagem, programação, mapa)
+   7. Aba Buffet
+   8. Aba Cores
+   9. Aba Confirmar
+   10. Imagem ampliada e botão de música
+   11. Telas maiores e movimento reduzido
+   ========================================================================== */
+
+
+/* 1. FONTES E VARIÁVEIS ==================================================== */
+
+@font-face {
+    font-family: "Cinzel";
+    src: url("../fonts/cinzel-latin-wght-normal.woff2") format("woff2");
+    font-weight: 400 900;
+    font-display: swap;
+}
+@font-face {
+    font-family: "Montserrat";
+    src: url("../fonts/montserrat-latin-wght-normal.woff2") format("woff2");
+    font-weight: 100 900;
+    font-display: swap;
+}
+@font-face {
+    font-family: "Great Vibes";
+    src: url("../fonts/great-vibes-latin-400-normal.woff2") format("woff2");
+    font-weight: 400;
+    font-display: swap;
+}
+
+:root {
+    /* Cores: para mudar o tom do site, mexa só aqui */
+    --ink: #0d0c0b;            /* fundo */
+    --surface: #171411;        /* campos e superfícies */
+    --gold: #c8a86a;           /* dourado principal */
+    --gold-soft: #e3cf9d;      /* dourado claro (destaques) */
+    --cream: #eee4d1;          /* texto principal */
+    --muted: #b0a794;          /* texto secundário */
+    --line: rgb(200 168 106 / .28);
+    --error: #f0a090;
+
+    /* Tipografia */
+    --font-display: "Cinzel", "Times New Roman", serif;
+    --font-script: "Great Vibes", "Snell Roundhand", cursive;
+    --font-body: "Montserrat", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+    /* Medidas */
+    --radius: 14px;
+    --column: 30rem;           /* largura máxima do convite (celular grande) */
+    --nav-h: 5rem;             /* altura reservada para a barra de abas */
+
+    color-scheme: dark;
+}
+
+
+/* 2. BASE ================================================================== */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+    -webkit-text-size-adjust: 100%;
+    background: var(--ink);
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    min-height: 100svh;
+    background: radial-gradient(120% 70% at 50% 0%, #1d1913 0%, var(--ink) 65%);
+    color: var(--cream);
+    font: 400 1rem/1.6 var(--font-body);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+body.is-locked { overflow: hidden; }
+
+h1, h2, h3, p, ul, ol, figure { margin: 0; }
+img { max-width: 100%; height: auto; }
+button { font: inherit; color: inherit; }
+
+[hidden] { display: none !important; }
+
+:focus-visible {
+    outline: 2px solid var(--gold-soft);
+    outline-offset: 3px;
+}
+
+/* Ícones SVG (todos seguem o mesmo estilo de traço) */
+.tab svg, .btn svg, .music svg, .lightbox__close svg, .placeholder svg {
+    width: 1.4rem;
+    height: 1.4rem;
+    flex: none;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.7;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+#particles {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+}
+
+
+/* 3. COMPONENTES =========================================================== */
+
+/* Título de seção */
+.title {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.45rem;
+    letter-spacing: .08em;
+    line-height: 1.3;
+    color: var(--gold);
+    text-wrap: balance;
+}
+.lead {
+    max-width: 26rem;
+    margin: .75rem auto 0;
+    color: var(--muted);
+    font-size: .95rem;
+    text-wrap: balance;
+}
+.rule {
+    width: 3rem;
+    height: 1px;
+    margin: 1.5rem auto 0;
+    background: var(--gold);
+    opacity: .7;
+}
+
+/* Botões */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .6rem;
+    min-height: 3.25rem;            /* área de toque confortável */
+    padding: .8rem 1.4rem;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    font-size: .95rem;
+    font-weight: 500;
+    letter-spacing: .02em;
+    line-height: 1.2;
+    text-decoration: none;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: background-color .2s, transform .15s;
+}
+.btn:active { transform: scale(.98); }
+.btn--gold  { background: var(--gold); color: #16120d; }
+.btn--ghost { background: transparent; border-color: var(--gold); color: var(--gold-soft); }
+.btn--block { width: 100%; }
+.btn svg { width: 1.25rem; height: 1.25rem; }
+
+@media (hover: hover) {
+    .btn--gold:hover  { background: var(--gold-soft); }
+    .btn--ghost:hover { background: rgb(200 168 106 / .12); }
+}
+
+/* Formulário */
+.form { margin-top: 2rem; text-align: left; }
+
+.field { margin: 0 0 1.4rem; padding: 0; border: 0; min-width: 0; }
+.field label,
+.field legend {
+    display: block;
+    margin: 0 0 .5rem;
+    padding: 0;
+    font-size: .9rem;
+    font-weight: 500;
+    color: var(--cream);
+}
+.field__opt { font-weight: 400; color: var(--muted); }
+
+.input {
+    width: 100%;
+    min-height: 3.25rem;
+    padding: .8rem 1rem;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    color: var(--cream);
+    font: inherit;
+    font-size: 1rem;                /* 16px: evita o zoom automático do iPhone */
+    -webkit-appearance: none;
+    appearance: none;
+}
+textarea.input { resize: vertical; min-height: 5.5rem; }
+.input:focus-visible { outline: 2px solid var(--gold); outline-offset: 1px; border-color: var(--gold); }
+.input[aria-invalid="true"] { border-color: var(--error); }
+
+.field__error { margin-top: .45rem; font-size: .85rem; color: var(--error); }
+
+/* Escolha Sim / Não */
+.choice { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; }
+.choice input {
+    position: absolute;
+    width: 1px; height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+}
+.choice label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 3.25rem;
+    margin: 0;
+    padding: .6rem .75rem;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    font-weight: 400;
+    line-height: 1.25;
+    text-align: center;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+.choice input:checked + label {
+    background: rgb(200 168 106 / .16);
+    border-color: var(--gold);
+    color: var(--gold-soft);
+    font-weight: 500;
+}
+.choice input:focus-visible + label { outline: 2px solid var(--gold-soft); outline-offset: 2px; }
+
+/* Quantidade (− 1 +) */
+.stepper { display: grid; grid-template-columns: 3.25rem 1fr 3.25rem; gap: .6rem; }
+.stepper__btn {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    color: var(--gold-soft);
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+.stepper__btn:active { background: rgb(200 168 106 / .16); }
+.stepper__input { text-align: center; -moz-appearance: textfield; }
+.stepper__input::-webkit-outer-spin-button,
+.stepper__input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+
+.form__status {
+    min-height: 1.5rem;
+    margin-top: 1rem;
+    font-size: .9rem;
+    color: var(--muted);
+    text-align: center;
+}
+.form__status a { color: var(--gold-soft); text-underline-offset: 3px; }
+.form__status.is-error { color: var(--error); }
+
+
+/* 4. ENVELOPE DE ABERTURA ================================================== */
+/* Camadas, de trás para frente:
+   fundo (0) → aba aberta (1) → carta (2) → bolso (3) → aba fechada (4) → selo (5)
+   O botão "Abrir convite" fica FORA do envelope, então nada o cobre. */
+
+.intro {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    background: radial-gradient(120% 90% at 50% 35%, #1c1812 0%, var(--ink) 70%);
+    touch-action: none;                  /* impede rolar a página por trás */
+    transition: opacity .9s ease, visibility .9s;
+}
+.intro.is-leaving { opacity: 0; visibility: hidden; pointer-events: none; }
+
+.envelope {
+    --w: min(84vw, 21rem);
+    --h: calc(var(--w) / 1.5);
+    position: relative;
+    width: var(--w);
+    height: var(--h);
+    margin-bottom: 2.25rem;
+    perspective: 900px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+/* Em celular deitado, encolhe o envelope para caber com o botão */
+@supports (height: 100svh) {
+    .envelope { --w: min(84vw, 21rem, calc(100svh - 9rem)); }
+}
+
+.envelope__back {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: #7d6636;
+    box-shadow: 0 30px 60px rgb(0 0 0 / .55);
+}
+
+.envelope__letter {
+    position: absolute;
+    z-index: 2;
+    left: 6%;
+    right: 6%;
+    top: 9%;
+    height: 84%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: calc(var(--h) * .01);
+    padding-top: calc(var(--h) * .07);
+    background: #14110f;
+    border: 1px solid var(--gold);
+    text-align: center;
+    transition: transform 1s cubic-bezier(.3, .7, .2, 1) .5s;
+}
+.envelope__letter::after {            /* moldura fina interna */
+    content: "";
+    position: absolute;
+    inset: 5px;
+    border: 1px solid rgb(200 168 106 / .22);
+    pointer-events: none;
+}
+.envelope__logo  { width: calc(var(--h) * .24); height: auto; }
+.envelope__names { font-family: var(--font-script); font-size: calc(var(--h) * .14); line-height: 1.1; word-spacing: .12em; color: var(--gold-soft); }
+.envelope__date  { font-family: var(--font-display); font-size: calc(var(--h) * .055); letter-spacing: .18em; color: var(--cream); }
+
+/* Bolso: duas peças (laterais + base) para dar o vinco do envelope */
+.envelope__front { position: absolute; inset: 0; z-index: 3; pointer-events: none; }
+.envelope__front::before,
+.envelope__front::after { content: ""; position: absolute; inset: 0; }
+.envelope__front::before {
+    background: linear-gradient(135deg, #b59450, #a58646);
+    clip-path: polygon(0 0, 50% 52%, 100% 0, 100% 100%, 0 100%);
+}
+.envelope__front::after {
+    background: linear-gradient(to top, #c8a86a, #d6ba7e);
+    clip-path: polygon(0 100%, 50% 52%, 100% 100%);
+}
+
+.envelope__flap {
+    position: absolute;
+    z-index: 4;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 56%;
+    background: linear-gradient(to bottom, #e0c78a, #c8a86a);
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    transform-origin: top center;
+    transition: transform .7s cubic-bezier(.5, 0, .3, 1), filter .7s, z-index 0s .3s;
+}
+
+.envelope__seal {
+    position: absolute;
+    z-index: 5;
+    left: 50%;
+    top: 56%;
+    width: calc(var(--h) * .24);
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #f0dba5, #c8a86a 55%, #8f7440);
+    box-shadow: 0 3px 10px rgb(0 0 0 / .45), inset 0 0 0 2px rgb(255 255 255 / .12);
+    color: #2b2112;
+    font-family: var(--font-script);
+    font-size: calc(var(--h) * .17);
+    line-height: 1;
+    padding-top: .08em;
+    transition: opacity .35s, transform .5s;
+}
+
+.intro__text {
+    margin-bottom: 1rem;
+    color: var(--muted);
+    font-size: .95rem;
+}
+.intro__text,
+#openSite { transition: opacity .3s; }
+
+/* Estado: aberto */
+.intro.is-open .envelope__flap { transform: rotateX(180deg); z-index: 1; filter: brightness(.78); }
+.intro.is-open .envelope__letter { transform: translateY(calc(var(--h) * -.62)); }
+.intro.is-open .envelope__seal { opacity: 0; transform: translate(-50%, -50%) scale(.6); }
+.intro.is-open .intro__text,
+.intro.is-open #openSite { opacity: 0; pointer-events: none; }
+
+
+/* 5. ABAS: LAYOUT E NAVEGAÇÃO ============================================== */
+
+.app {
+    position: relative;
+    z-index: 1;
+    max-width: var(--column);
+    margin: 0 auto;
+    outline: none;
+}
+
+.panel {
+    min-height: 100vh;
+    min-height: 100svh;
+    padding-bottom: calc(var(--nav-h) + 1.75rem + env(safe-area-inset-bottom, 0px));
+    animation: panel-in .45s ease both;
+}
+.panel--page { padding-top: 4.5rem; }       /* deixa espaço para o botão de música */
+
+@keyframes panel-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: none; }
+}
+
+.block {
+    padding: 3.5rem 1.5rem 0;
+    text-align: center;
+}
+.panel--page > .block { padding-top: 0; }
+
+/* Barra de abas fixa no rodapé */
+.tabbar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 50;
+    display: flex;
+    justify-content: center;
+    padding: 0 .75rem calc(.75rem + env(safe-area-inset-bottom, 0px));
+    pointer-events: none;
+}
+.tabbar__inner {
+    pointer-events: auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: .25rem;
+    width: 100%;
+    max-width: 28rem;
+    padding: .35rem;
+    background: rgb(23 20 17 / .96);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    box-shadow: 0 10px 30px rgb(0 0 0 / .5);
+}
+/* Esconde a barra enquanto o teclado do celular está aberto (campo em foco) */
+.tabbar { transition: transform .25s ease; }
+body:has(.form .input:focus) .tabbar { transform: translateY(130%); }
+
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+    .tabbar__inner {
+        background: rgb(23 20 17 / .78);
+        -webkit-backdrop-filter: blur(14px);
+        backdrop-filter: blur(14px);
+    }
+}
+
+.tab {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: .15rem;
+    min-height: 3.25rem;
+    border-radius: 999px;
+    color: var(--muted);
+    font-size: .72rem;
+    font-weight: 500;
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: background-color .25s, color .25s;
+}
+.tab svg { width: 1.3rem; height: 1.3rem; }
+.tab[aria-current="page"] { background: var(--gold); color: #16120d; }
+@media (hover: hover) {
+    .tab:not([aria-current="page"]):hover { color: var(--cream); }
+}
+
+
+/* 6. ABA INÍCIO ============================================================ */
+
+/* Capa */
+.hero {
+    position: relative;
+    isolation: isolate;
+    min-height: 100vh;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: calc(1.5rem + env(safe-area-inset-top, 0px)) 1.5rem calc(var(--nav-h) + 1.5rem + env(safe-area-inset-bottom, 0px));
+    text-align: center;
+}
+.hero__photo {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 55% 40%;
+}
+.hero::after {                          /* escurece topo e base para o texto ler bem */
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(to bottom,
+        rgb(13 12 11 / .82) 0%,
+        rgb(13 12 11 / .08) 28%,
+        rgb(13 12 11 / .12) 52%,
+        rgb(13 12 11 / .78) 72%,
+        rgb(13 12 11 / .94) 86%,
+        var(--ink) 100%);
+}
+.hero__logo { width: 4.75rem; height: auto; }
+.hero__names {
+    font-family: var(--font-script);
+    font-weight: 400;
+    font-size: clamp(3.4rem, 17vw, 5.2rem);
+    line-height: .95;
+    word-spacing: .12em;
+    color: var(--gold-soft);
+    text-shadow: 0 2px 24px rgb(0 0 0 / .6);
+}
+.hero__names span { display: block; }
+.hero__date {
+    margin-top: 1.1rem;
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    letter-spacing: .25em;
+    padding-left: .25em;                /* compensa o espaço depois da última letra */
+}
+.hero__welcome { margin-top: .35rem; font-weight: 300; color: var(--cream); }
+
+/* Contagem regressiva */
+.countdown {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    margin-top: 1.75rem;
+}
+.countdown__unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .4rem;
+    padding: .25rem 0;
+}
+.countdown__unit + .countdown__unit { border-left: 1px solid var(--line); }
+.countdown__num {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(1.9rem, 9vw, 2.6rem);
+    line-height: 1;
+    color: var(--gold-soft);
+    font-variant-numeric: tabular-nums;
+}
+.countdown__label { font-size: .8rem; color: var(--muted); letter-spacing: .04em; }
+.countdown__done {
+    margin-top: 1.75rem;
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    color: var(--gold-soft);
+}
+
+/* Cerimônia e festa: linha do tempo (uma acontece depois da outra) */
+.timeline {
+    list-style: none;
+    width: fit-content;
+    max-width: 100%;
+    margin: 2rem auto 0;
+    padding: 0;
+    text-align: left;
+}
+.timeline__item { position: relative; padding: 0 0 2.25rem 1.9rem; }
+.timeline__item:last-child { padding-bottom: 0; }
+.timeline__item::before {              /* marcador */
+    content: "";
+    position: absolute;
+    left: 0;
+    top: .45rem;
+    width: .65rem;
+    height: .65rem;
+    border-radius: 50%;
+    background: var(--gold);
+    box-shadow: 0 0 0 4px rgb(200 168 106 / .18);
+}
+.timeline__item:not(:last-child)::after {   /* linha ligando os marcadores */
+    content: "";
+    position: absolute;
+    left: calc(.325rem - .5px);
+    top: 1.5rem;
+    bottom: .35rem;
+    width: 1px;
+    background: var(--line);
+}
+.timeline__title { font-family: var(--font-display); font-weight: 600; font-size: 1.1rem; letter-spacing: .06em; color: var(--gold); }
+.timeline__place { margin-top: .15rem; font-size: 1.1rem; }
+.timeline__meta  { font-size: .92rem; color: var(--muted); }
+
+/* Mapa */
+.map {
+    position: relative;
+    margin-top: 1.5rem;
+    aspect-ratio: 4 / 3;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+}
+.map::before {                          /* aparece até o mapa carregar */
+    content: "Carregando mapa…";
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    color: var(--muted);
+    font-size: .9rem;
+}
+.map iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    opacity: 0;                         /* evita o "flash" branco no tema escuro */
+    transition: opacity .4s ease;
+}
+.map.is-loaded iframe { opacity: 1; }
+.map__tap { position: absolute; inset: 0; z-index: 1; }
+
+.actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: .75rem;
+    margin-top: 1rem;
+}
+
+
+/* 7. ABA BUFFET ============================================================ */
+
+.menu { display: grid; gap: 2.25rem; margin: 2.25rem 0; }
+.menu__title {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.1rem;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.05rem;
+    letter-spacing: .1em;
+    color: var(--gold);
+}
+.menu__title::before,
+.menu__title::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+.menu__list {
+    list-style: none;
+    display: grid;
+    gap: .6rem;
+    padding: 0;
+    font-size: 1.05rem;
+    font-weight: 300;
+}
+
+
+/* 8. ABA CORES ============================================================= */
+
+.figure { margin-top: 2rem; }
+.figure__btn {
+    display: block;
+    width: 100%;
+    padding: 0;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+    cursor: zoom-in;
+    -webkit-tap-highlight-color: transparent;
+}
+.figure__btn img { display: block; width: 100%; height: auto; }
+.figure__caption { margin-top: .75rem; font-size: .85rem; color: var(--muted); }
+
+.placeholder {
+    display: grid;
+    justify-items: center;
+    gap: .75rem;
+    margin-top: 2rem;
+    padding: 2.75rem 1.5rem;
+    border: 1px dashed var(--line);
+    border-radius: var(--radius);
+    color: var(--muted);
+}
+.placeholder svg { width: 2rem; height: 2rem; color: var(--gold); }
+
+
+/* 10. IMAGEM AMPLIADA E BOTÃO DE MÚSICA ==================================== */
+
+.lightbox {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    padding: 4rem 1rem 2rem;
+    border: 0;
+    background: #080706;
+    overflow: auto;
+    overscroll-behavior: contain;
+}
+.lightbox::backdrop { background: rgb(0 0 0 / .8); }
+.lightbox__img {
+    display: block;
+    width: min(100%, 40rem);
+    height: auto;
+    margin: 0 auto;
+    border-radius: 8px;
+}
+.lightbox__close {
+    position: fixed;
+    top: calc(.75rem + env(safe-area-inset-top, 0px));
+    right: .75rem;
+    z-index: 2;
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    background: rgb(23 20 17 / .9);
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    color: var(--gold-soft);
+    cursor: pointer;
+}
+body:has(.lightbox[open]) { overflow: hidden; }
+
+.music {
+    position: fixed;
+    top: calc(.75rem + env(safe-area-inset-top, 0px));
+    right: max(.75rem, calc((100vw - var(--column)) / 2 + .75rem));
+    z-index: 60;
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    padding: 0;
+    background: rgb(13 12 11 / .55);
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    color: var(--gold-soft);
+    cursor: pointer;
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    -webkit-tap-highlight-color: transparent;
+}
+.music[aria-pressed="true"]  .music__off { display: none; }
+.music[aria-pressed="false"] .music__on  { display: none; }
+
+
+/* 11. TELAS MAIORES E MOVIMENTO REDUZIDO =================================== */
+
+/* No computador o convite continua em coluna de celular, centralizada */
+@media (min-width: 31rem) {
+    .app { border-inline: 1px solid rgb(200 168 106 / .12); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+        transition-delay: 0s !important;
+    }
+}
